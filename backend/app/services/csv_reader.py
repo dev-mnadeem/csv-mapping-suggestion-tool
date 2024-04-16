@@ -151,7 +151,7 @@ def parse_table(text: str, delimiter: str, settings: Settings) -> Table:
             raise CsvEmptyError("The file is empty.") from exc
 
         if len(header) > settings.max_columns:
-            raise CsvEmptyError(
+            raise CsvTooLargeError(
                 f"The file has {len(header)} columns, above the "
                 f"{settings.max_columns} column limit."
             )
@@ -169,11 +169,11 @@ def parse_table(text: str, delimiter: str, settings: Settings) -> Table:
         ragged = 0
         truncated = False
         for row in reader:
+            if not row or (len(row) == 1 and not row[0].strip()):
+                continue
             if len(data_rows) >= settings.max_rows:
                 truncated = True
                 break
-            if not row or (len(row) == 1 and not row[0].strip()):
-                continue
             if len(row) != width:
                 ragged += 1
                 row = (row + [""] * width)[:width]

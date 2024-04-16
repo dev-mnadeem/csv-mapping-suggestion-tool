@@ -196,3 +196,19 @@ def test_upload_over_the_size_cap_is_refused(
     )
     assert response.status_code == 413
     assert response.json()["error"] == "file_too_large"
+
+
+def test_too_many_columns_is_reported_as_too_large_not_empty(
+    client: TestClient, settings, sample_files: tuple[bytes, bytes]
+) -> None:
+    settings.max_columns = 3
+    _, target = sample_files
+    response = client.post(
+        "/api/mappings/suggest",
+        files={
+            "input_table": ("wide.csv", b"a,b,c,d\n1,2,3,4\n", "text/csv"),
+            "target_table": ("target_schema.csv", target, "text/csv"),
+        },
+    )
+    assert response.status_code == 413
+    assert response.json()["error"] == "file_too_large"

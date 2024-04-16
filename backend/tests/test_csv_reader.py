@@ -120,7 +120,15 @@ def test_upload_at_the_cap_is_accepted() -> None:
     assert len(payload) == 1024
 
 
-def test_too_many_columns_is_rejected() -> None:
+def test_too_many_columns_is_rejected_as_too_large() -> None:
     settings = Settings(max_columns=3)
-    with pytest.raises(CsvEmptyError):
+    with pytest.raises(CsvTooLargeError, match="column limit"):
         read_csv(b"a,b,c,d\n1,2,3,4\n", settings)
+
+
+def test_trailing_blank_lines_at_the_row_cap_are_not_truncation() -> None:
+    settings = Settings(max_rows=2)
+    table = read_csv(b"a\n1\n2\n\n\n", settings)
+    assert table.row_count == 2
+    assert table.truncated is False
+    assert not any("first 2 rows" in warning for warning in table.warnings)

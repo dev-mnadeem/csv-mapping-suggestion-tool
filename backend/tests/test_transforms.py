@@ -55,3 +55,8 @@ def test_catalogue_lists_every_transform() -> None:
     names = {item.name for item in transforms.catalogue()}
     assert names == set(transforms.REGISTRY)
     assert "to_date" in names
+
+
+def test_to_decimal_with_more_places_than_the_context_allows_keeps_the_number() -> None:
+    value = "12345678901234567890"
+    assert transforms.apply("to_decimal", value, {"places": "20"}) == value

@@ -102,10 +102,9 @@ def _to_decimal(value: str, options: Options) -> str:
     if places is None:
         return str(number)
     try:
-        quantum = Decimal(1).scaleb(-int(places))
+        return str(number.quantize(Decimal(1).scaleb(-int(places))))
     except (ValueError, InvalidOperation):
         return str(number)
-    return str(number.quantize(quantum))
 
 
 def _to_date(value: str, options: Options) -> str:

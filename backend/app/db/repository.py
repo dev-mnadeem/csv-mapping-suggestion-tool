@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from datetime import UTC, datetime
 
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
@@ -54,11 +55,16 @@ class RunRepository:
         return self._session.get(SuggestionRun, run_id)
 
 
+def as_utc(moment: datetime) -> datetime:
+    """SQLite returns stored timestamps without their zone; they were written as UTC."""
+    return moment if moment.tzinfo else moment.replace(tzinfo=UTC)
+
+
 def to_summary(run: SuggestionRun) -> RunSummary:
     """Map a row onto the list DTO."""
     return RunSummary(
         id=run.id,
-        created_at=run.created_at,
+        created_at=as_utc(run.created_at),
         suggester=run.suggester,
         source_filename=run.source_filename,
         target_filename=run.target_filename,

@@ -69,3 +69,13 @@ def test_pagination_walks_the_log(
 def test_page_size_is_capped(client: TestClient) -> None:
     body = client.get("/api/runs", params={"limit": 10_000}).json()
     assert body["limit"] == 100
+
+
+def test_run_timestamps_are_reported_in_utc(
+    client: TestClient, sample_files: tuple[bytes, bytes]
+) -> None:
+    run_id = suggest(client, sample_files)["run_id"]
+    listed = client.get("/api/runs").json()["items"][0]["created_at"]
+    detail = client.get(f"/api/runs/{run_id}").json()["created_at"]
+    assert listed.endswith(("Z", "+00:00"))
+    assert detail == listed

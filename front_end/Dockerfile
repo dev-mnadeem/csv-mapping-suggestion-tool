@@ -22,7 +22,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 
 # nginx:alpine ships an unprivileged "nginx" user; the stock config wants
 # root only for the pid file and cache, so both are moved into /tmp.
-RUN sed -i 's#/var/run/nginx.pid#/tmp/nginx.pid#' /etc/nginx/nginx.conf \
+RUN sed -i 's#^pid .*#pid /tmp/nginx.pid;#' /etc/nginx/nginx.conf \
     && sed -i '/user  nginx;/d' /etc/nginx/nginx.conf \
     && chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx
 USER nginx

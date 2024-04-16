@@ -1,4 +1,3 @@
-import React from 'react';
 import { Chip, Stack } from '@mui/material';
 
 // What the parser actually made of the upload: encoding and delimiter are

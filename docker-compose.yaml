@@ -18,7 +18,7 @@ services:
       args:
         # The browser resolves this, so it is the host's port, not the
         # compose network name.
-        REACT_APP_API_URL: http://localhost:7241
+        VITE_API_URL: http://localhost:7241
     image: csv-column-mapper-web:latest
     ports:
       - "7242:8080"

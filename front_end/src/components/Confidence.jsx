@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, LinearProgress, Tooltip, Typography } from '@mui/material';
 import { bandFor } from '../config';
 

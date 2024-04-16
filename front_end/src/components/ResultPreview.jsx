@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   Paper,
@@ -28,7 +27,6 @@ export default function ResultPreview({ result }) {
           </TableHead>
           <TableBody>
             {result.rows.map((row, index) => (
-              // eslint-disable-next-line react/no-array-index-key
               <TableRow key={index} hover>
                 {result.columns.map((column) => (
                   <TableCell key={column} className="mono">

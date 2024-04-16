@@ -8,7 +8,7 @@ async function unwrap(response) {
   try {
     const body = await response.json();
     detail = body.detail || detail;
-  } catch (error) {
+  } catch {
     // A non-JSON error body is not worth reporting over the status code.
   }
   throw new Error(detail);

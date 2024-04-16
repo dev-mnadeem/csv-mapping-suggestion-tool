@@ -1,6 +1,6 @@
-import React from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import App from './App';
 
 const TRANSFORMS = [
@@ -70,7 +70,7 @@ function jsonResponse(body) {
 }
 
 beforeEach(() => {
-  global.fetch = jest.fn((url) => {
+  global.fetch = vi.fn((url) => {
     if (String(url).includes('/api/transforms')) {
       return jsonResponse(TRANSFORMS);
     }
@@ -79,7 +79,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  jest.resetAllMocks();
+  vi.restoreAllMocks();
 });
 
 function csvFile(name) {
@@ -119,7 +119,7 @@ test('the suggested mapping is shown with its column names and confidence', asyn
 });
 
 test('an unreachable API is reported instead of failing silently', async () => {
-  global.fetch = jest.fn(() => Promise.reject(new Error('offline')));
+  global.fetch = vi.fn(() => Promise.reject(new Error('offline')));
   await renderApp();
   expect(await screen.findByText(/API is not reachable/i)).toBeInTheDocument();
 });

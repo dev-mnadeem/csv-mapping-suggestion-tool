@@ -17,7 +17,7 @@ Matching runs locally with string similarity and a synonym table, so no API key 
 ## Tech
 
 - Backend: FastAPI, SQLAlchemy, SQLite, pytest
-- Frontend: React (Create React App)
+- Frontend: React, Vite, Vitest
 
 ## Running it
 
@@ -31,8 +31,8 @@ uvicorn app.main:app --port 7241 --reload
 
 ```bash
 cd front_end
-npm install
-npm start          # http://localhost:7242
+npm ci
+npm run dev        # http://localhost:7242
 ```
 
 Pick `sample_data/employee_policies.csv` as the source and `sample_data/target_schema.csv` as the target, then click Suggest mapping. API docs are at http://localhost:7241/docs.
@@ -61,7 +61,7 @@ GET  /api/runs/{id}
 
 ```bash
 cd backend && pip install -r requirements-dev.txt && pytest
-cd front_end && CI=true npm test
+cd front_end && npm test && npm run lint
 ```
 
 `backend/tests/fixtures/mapping_cases/` has six hand-written mapping cases used as a regression check for the matcher. Lint with `ruff check .` from `backend/`.

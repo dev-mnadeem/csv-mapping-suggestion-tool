@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 

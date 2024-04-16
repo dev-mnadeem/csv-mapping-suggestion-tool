@@ -3,7 +3,10 @@ FROM python:3.12-slim AS deps
 
 WORKDIR /install
 COPY requirements.txt .
-RUN pip install --no-cache-dir --prefix=/opt/venv -r requirements.txt
+# A real venv, not --prefix: a prefix install lands in a site-packages
+# directory the runtime interpreter never searches.
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
 
 
 FROM python:3.12-slim AS runtime

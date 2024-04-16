@@ -1,0 +1,39 @@
+[project]
+name = "csv-column-mapper"
+version = "1.0.0"
+description = "Suggests how the columns of an uploaded CSV map onto a target schema"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 96
+target-version = "py311"
+src = ["."]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle
+    "F",    # pyflakes
+    "W",    # warnings
+    "I",    # import order
+    "B",    # bugbear
+    "C4",   # comprehensions
+    "UP",   # pyupgrade
+    "SIM",  # simplify
+    "RET",  # return style
+    "PTH",  # prefer pathlib
+    "RUF",
+]
+ignore = [
+    # CSV dates are civil dates without a zone; attaching one would invent data.
+    "DTZ007",
+    "B008",  # FastAPI dependency defaults are declared in the signature.
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+filterwarnings = ["error::DeprecationWarning:app.*"]

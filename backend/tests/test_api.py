@@ -211,3 +211,18 @@ def test_too_many_columns_is_reported_as_too_large_not_empty(
     )
     assert response.status_code == 413
     assert response.json()["error"] == "file_too_large"
+
+
+def test_a_rejected_upload_is_named_in_the_error(
+    client: TestClient, sample_files: tuple[bytes, bytes]
+) -> None:
+    source, _ = sample_files
+    response = client.post(
+        "/api/mappings/suggest",
+        files={
+            "input_table": ("employee_policies.csv", source, "text/csv"),
+            "target_table": ("blank.csv", b"", "text/csv"),
+        },
+    )
+    assert response.status_code == 422
+    assert response.json() == {"error": "empty_file", "detail": "blank.csv: The file is empty."}

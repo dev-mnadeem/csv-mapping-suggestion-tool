@@ -45,8 +45,11 @@ async def load_table(upload: UploadFile, settings: Settings) -> tuple[str, Table
             f"'{filename}' is not a CSV. Accepted extensions: "
             f"{', '.join(sorted(ACCEPTED_SUFFIXES))}."
         )
-    payload = read_upload_bytes(upload.file, settings)
-    return filename, read_csv(payload, settings)
+    try:
+        return filename, read_csv(read_upload_bytes(upload.file, settings), settings)
+    except CsvError as exc:
+        # Two files arrive in one request; say which one was rejected.
+        raise type(exc)(f"{filename}: {exc}") from exc
 
 
 SettingsDep = Annotated[Settings, Depends(get_settings)]

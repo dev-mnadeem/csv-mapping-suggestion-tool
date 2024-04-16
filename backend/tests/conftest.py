@@ -11,8 +11,8 @@ from fastapi.testclient import TestClient
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from app.config import Settings, get_settings  # noqa: E402
-from app.db import session as db_session  # noqa: E402
+from app.config import Settings, get_settings
+from app.db import session as db_session
 
 FIXTURE_DIR = Path(__file__).parent / "fixtures"
 SAMPLE_DIR = Path(__file__).resolve().parents[2] / "sample_data"

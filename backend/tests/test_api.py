@@ -63,8 +63,7 @@ def test_suggest_maps_the_sample_files(
         "Premium",
     ]
     chosen = {
-        item["target_column"]: item["best"]["source_column"]
-        for item in body["suggestions"]
+        item["target_column"]: item["best"]["source_column"] for item in body["suggestions"]
     }
     assert chosen == {
         "Date": "Date_of_Policy",

@@ -79,11 +79,7 @@ def test_model_answer_is_used() -> None:
 def test_hallucinated_column_is_dropped() -> None:
     suggester = build(
         reply(
-            {
-                "mappings": [
-                    {"target_column": "PolicyNumber", "source_column": "does_not_exist"}
-                ]
-            }
+            {"mappings": [{"target_column": "PolicyNumber", "source_column": "does_not_exist"}]}
         )
     )
     results = suggester.suggest(SOURCE, TARGET)
@@ -180,8 +176,6 @@ def test_missing_key_falls_back_to_the_local_matcher() -> None:
         ("openai", "test-key", "openai"),
     ],
 )
-def test_registry_picks_the_right_backend(
-    backend: str, key: str | None, expected: str
-) -> None:
+def test_registry_picks_the_right_backend(backend: str, key: str | None, expected: str) -> None:
     settings = Settings(suggester_backend=backend, openai_api_key=key)
     assert get_suggester(settings).name == expected

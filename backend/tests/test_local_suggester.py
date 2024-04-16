@@ -89,9 +89,7 @@ def test_suggestions_keep_target_order() -> None:
 def test_transform_is_inferred(
     source_values: list[str], target_values: list[str], expected: str
 ) -> None:
-    [result] = suggest(
-        [profile("value", source_values)], [profile("value", target_values)]
-    )
+    [result] = suggest([profile("value", source_values)], [profile("value", target_values)])
     assert result.best is not None
     assert result.best.transform == expected
 

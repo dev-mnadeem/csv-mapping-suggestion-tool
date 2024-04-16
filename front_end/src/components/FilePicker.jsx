@@ -47,7 +47,14 @@ export default function FilePicker({ label, hint, file, onSelect, testId }) {
         type="file"
         accept=".csv,.tsv,.txt"
         hidden
-        onChange={(event) => onSelect(event.target.files[0])}
+        onChange={(event) => {
+          const [chosen] = event.target.files;
+          // Reset so picking the same file again still fires a change.
+          event.target.value = '';
+          if (chosen) {
+            onSelect(chosen);
+          }
+        }}
       />
     </Paper>
   );

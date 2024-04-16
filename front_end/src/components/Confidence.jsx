@@ -4,6 +4,13 @@ import { bandFor } from '../config';
 const PERCENT = 100;
 
 export default function Confidence({ value, rationale }) {
+  if (value === null) {
+    return (
+      <Typography variant="body2" color="text.secondary">
+        not scored
+      </Typography>
+    );
+  }
   const band = bandFor(value);
   return (
     <Tooltip title={rationale || ''} placement="top" arrow>

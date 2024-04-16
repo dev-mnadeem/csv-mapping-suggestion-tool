@@ -28,6 +28,8 @@ import {
 const PREVIEW_ROWS = 25;
 const RESULT_FILENAME = 'mapped.csv';
 
+const NO_MATCH = 'no column scored above the threshold';
+
 function toMappings(suggestions) {
   return suggestions.map((item) => ({
     target_column: item.target_column,
@@ -35,7 +37,8 @@ function toMappings(suggestions) {
     transform: item.best ? item.best.transform : 'identity',
     options: item.best ? item.best.transform_options : {},
     confidence: item.best ? item.best.confidence : 0,
-    rationale: item.best ? item.best.rationale : 'no column scored above the threshold',
+    rationale: item.best ? item.best.rationale : NO_MATCH,
+    candidates: [item.best, ...item.alternatives].filter(Boolean),
   }));
 }
 
@@ -99,6 +102,19 @@ export default function App() {
     }
   }, []);
 
+  const chooseFile = (setFile) => (file) => {
+    setFile(file);
+    // A plan only fits the file it was suggested for.
+    setSuggestion(null);
+    setMappings([]);
+    setResult(null);
+  };
+
+  const editMappings = (next) => {
+    setMappings(next);
+    setResult(null);
+  };
+
   const handleSuggest = () =>
     run('suggest', async () => {
       const response = await suggestMapping(inputFile, targetFile);
@@ -119,8 +135,11 @@ export default function App() {
       const anchor = document.createElement('a');
       anchor.href = url;
       anchor.download = RESULT_FILENAME;
+      document.body.appendChild(anchor);
       anchor.click();
-      URL.revokeObjectURL(url);
+      anchor.remove();
+      // Revoking synchronously can cancel the download before it starts.
+      setTimeout(() => URL.revokeObjectURL(url), 0);
     });
 
   const matched = mappings.filter((row) => row.source_column).length;
@@ -175,7 +194,7 @@ export default function App() {
                   hint="The export being mapped, for example a policy list from another system."
                   file={inputFile}
                   testId="input-file"
-                  onSelect={setInputFile}
+                  onSelect={chooseFile(setInputFile)}
                 />
               </Box>
               <Box sx={{ flex: 1 }}>
@@ -184,7 +203,7 @@ export default function App() {
                   hint="A CSV whose header row is the schema you want to end up with."
                   file={targetFile}
                   testId="target-file"
-                  onSelect={setTargetFile}
+                  onSelect={chooseFile(setTargetFile)}
                 />
               </Box>
             </Stack>
@@ -229,7 +248,7 @@ export default function App() {
                 mappings={mappings}
                 sourceColumns={suggestion.source.columns}
                 transforms={transforms}
-                onChange={setMappings}
+                onChange={editMappings}
               />
             </Paper>
           )}

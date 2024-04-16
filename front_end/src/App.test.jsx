@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import App from './App';
@@ -27,6 +27,24 @@ const SUGGESTION = {
         non_empty_count: 12,
         distinct_count: 3,
         sample_values: ['100.0'],
+      },
+      {
+        name: 'Policy_No',
+        index: 1,
+        inferred_type: 'text',
+        row_count: 12,
+        non_empty_count: 12,
+        distinct_count: 12,
+        sample_values: ['AB-12345'],
+      },
+      {
+        name: 'Department',
+        index: 2,
+        inferred_type: 'text',
+        row_count: 12,
+        non_empty_count: 12,
+        distinct_count: 3,
+        sample_values: ['Finance'],
       },
     ],
   },
@@ -59,7 +77,16 @@ const SUGGESTION = {
         transform_options: {},
         signals: {},
       },
-      alternatives: [],
+      alternatives: [
+        {
+          source_column: 'Policy_No',
+          confidence: 0.2,
+          rationale: 'weak match on name and type (20% similar)',
+          transform: 'identity',
+          transform_options: {},
+          signals: {},
+        },
+      ],
     },
   ],
   warnings: [],
@@ -122,4 +149,44 @@ test('an unreachable API is reported instead of failing silently', async () => {
   global.fetch = vi.fn(() => Promise.reject(new Error('offline')));
   await renderApp();
   expect(await screen.findByText(/API is not reachable/i)).toBeInTheDocument();
+});
+
+async function suggestFromTwoFiles() {
+  await renderApp();
+  await userEvent.upload(screen.getByTestId('input-file'), csvFile('source.csv'));
+  await userEvent.upload(screen.getByTestId('target-file'), csvFile('target.csv'));
+  await userEvent.click(screen.getByRole('button', { name: /suggest mapping/i }));
+  await screen.findByRole('combobox', { name: /source for Premium/i });
+}
+
+async function pickSource(name) {
+  await userEvent.click(screen.getByRole('combobox', { name: /source for Premium/i }));
+  await userEvent.click(within(screen.getByRole('listbox')).getByRole('option', { name }));
+}
+
+test('choosing a scored alternative shows that pairing\'s own score and transform', async () => {
+  await suggestFromTwoFiles();
+  await pickSource('Policy_No');
+
+  expect(screen.getByText('20%')).toBeInTheDocument();
+  expect(screen.queryByText('65%')).not.toBeInTheDocument();
+  expect(screen.getByRole('combobox', { name: /transform for Premium/i })).toHaveTextContent(
+    'identity'
+  );
+});
+
+test('choosing a column the matcher never scored is marked as not scored', async () => {
+  await suggestFromTwoFiles();
+  await pickSource('Department');
+
+  expect(screen.getByText('not scored')).toBeInTheDocument();
+  expect(screen.getByText('chosen by hand')).toBeInTheDocument();
+});
+
+test('replacing the source file drops the plan that was suggested for the old one', async () => {
+  await suggestFromTwoFiles();
+  await userEvent.upload(screen.getByTestId('input-file'), csvFile('other.csv'));
+
+  expect(screen.queryByRole('combobox', { name: /source for Premium/i })).not.toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /suggest mapping/i })).toBeEnabled();
 });

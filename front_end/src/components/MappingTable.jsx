@@ -14,20 +14,51 @@ import Confidence from './Confidence';
 
 export const UNMAPPED = '__none__';
 
+// Picking a different source swaps in that pairing's own score, reason and
+// transform when the matcher scored it, instead of keeping the old ones.
+export function withSource(row, sourceColumn) {
+  if (sourceColumn === null) {
+    return { ...row, source_column: null, transform: 'identity', options: {}, confidence: 0, rationale: 'left blank' };
+  }
+  const scored = row.candidates.find((candidate) => candidate.source_column === sourceColumn);
+  if (scored) {
+    return {
+      ...row,
+      source_column: sourceColumn,
+      transform: scored.transform,
+      options: scored.transform_options,
+      confidence: scored.confidence,
+      rationale: scored.rationale,
+    };
+  }
+  return {
+    ...row,
+    source_column: sourceColumn,
+    transform: 'identity',
+    options: {},
+    confidence: null,
+    rationale: 'chosen by hand',
+  };
+}
+
 // Every row is editable: the suggestion is a starting point, and the
 // person doing the import has the final say before anything runs.
+// Options belong to one transform, so they are dropped on a switch, except
+// when switching back to the transform the matcher proposed for this source.
+export function withTransform(row, transform) {
+  const scored = row.candidates.find((candidate) => candidate.source_column === row.source_column);
+  const options = scored && scored.transform === transform ? scored.transform_options : {};
+  return { ...row, transform, options };
+}
+
 export default function MappingTable({
   mappings,
   sourceColumns,
   transforms,
   onChange,
 }) {
-  const update = (targetColumn, patch) =>
-    onChange(
-      mappings.map((row) =>
-        row.target_column === targetColumn ? { ...row, ...patch } : row
-      )
-    );
+  const update = (targetColumn, change) =>
+    onChange(mappings.map((row) => (row.target_column === targetColumn ? change(row) : row)));
 
   return (
     <TableContainer component={Paper} variant="outlined">
@@ -57,10 +88,9 @@ export default function MappingTable({
                   value={row.source_column || UNMAPPED}
                   inputProps={{ 'aria-label': `source for ${row.target_column}` }}
                   onChange={(event) =>
-                    update(row.target_column, {
-                      source_column:
-                        event.target.value === UNMAPPED ? null : event.target.value,
-                    })
+                    update(row.target_column, (current) =>
+                      withSource(current, event.target.value === UNMAPPED ? null : event.target.value)
+                    )
                   }
                 >
                   <MenuItem value={UNMAPPED}>
@@ -80,7 +110,7 @@ export default function MappingTable({
                   value={row.transform}
                   inputProps={{ 'aria-label': `transform for ${row.target_column}` }}
                   onChange={(event) =>
-                    update(row.target_column, { transform: event.target.value })
+                    update(row.target_column, (current) => withTransform(current, event.target.value))
                   }
                 >
                   {transforms.map((transform) => (

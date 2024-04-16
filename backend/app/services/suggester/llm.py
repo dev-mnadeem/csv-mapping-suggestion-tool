@@ -97,10 +97,12 @@ class OpenAIMappingSuggester:
         )
         content = body["choices"][0]["message"]["content"]
         parsed = json.loads(content)
+        if not isinstance(parsed, dict):
+            raise ValueError("Model answer is not a JSON object.")
         mappings = parsed.get("mappings", [])
         if not isinstance(mappings, list):
             raise ValueError("Model returned 'mappings' that is not a list.")
-        return mappings
+        return [row for row in mappings if isinstance(row, dict)]
 
     def suggest(
         self,
@@ -113,7 +115,7 @@ class OpenAIMappingSuggester:
             return self._fallback.suggest(source, target)
         try:
             raw = self._ask(source, target)
-        except (httpx.HTTPError, KeyError, ValueError, json.JSONDecodeError) as exc:
+        except (httpx.HTTPError, KeyError, IndexError, TypeError, ValueError) as exc:
             logger.warning("LLM suggester failed (%s); using the local suggester.", exc)
             return self._fallback.suggest(source, target)
         return self._validate(raw, source, target)

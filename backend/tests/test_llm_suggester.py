@@ -129,6 +129,39 @@ def test_unparsable_answer_falls_back_to_the_local_matcher() -> None:
     assert first.best.source_column == "Policy_No"
 
 
+@pytest.mark.parametrize(
+    "body",
+    [
+        {"choices": []},
+        {"choices": [{"message": {"content": "[1, 2]"}}]},
+        {"choices": [{"message": {"content": None}}]},
+    ],
+    ids=["no-choices", "json-array", "null-content"],
+)
+def test_malformed_response_falls_back_to_the_local_matcher(body: dict) -> None:
+    suggester = build(httpx.MockTransport(lambda _request: httpx.Response(200, json=body)))
+    [first, _] = suggester.suggest(SOURCE, TARGET)
+    assert first.best is not None
+    assert first.best.source_column == "Policy_No"
+
+
+def test_non_object_rows_in_the_answer_are_ignored() -> None:
+    suggester = build(
+        reply(
+            {
+                "mappings": [
+                    "PolicyNumber",
+                    {"target_column": "PolicyNumber", "source_column": "Policy_No"},
+                ]
+            }
+        )
+    )
+    [first, second] = suggester.suggest(SOURCE, TARGET)
+    assert first.best is not None
+    assert first.best.source_column == "Policy_No"
+    assert second.best is None
+
+
 def test_missing_key_falls_back_to_the_local_matcher() -> None:
     suggester = OpenAIMappingSuggester(
         Settings(suggester_backend="openai", openai_api_key=None),

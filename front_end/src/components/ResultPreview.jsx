@@ -1,5 +1,4 @@
 import {
-  Box,
   Paper,
   Table,
   TableBody,
@@ -12,16 +11,24 @@ import {
 
 export default function ResultPreview({ result }) {
   return (
-    <Box>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+    <>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }} id="result-caption">
         Showing {result.rows.length} of {result.total_rows} mapped rows.
       </Typography>
-      <TableContainer component={Paper} variant="outlined" sx={{ maxHeight: 360 }}>
+      <TableContainer
+        component={Paper}
+        variant="outlined"
+        sx={{ maxHeight: 360 }}
+        tabIndex={0}
+        aria-labelledby="result-caption"
+      >
         <Table size="small" stickyHeader>
           <TableHead>
             <TableRow>
               {result.columns.map((column) => (
-                <TableCell key={column}>{column}</TableCell>
+                <TableCell key={column} className="mono">
+                  {column}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -29,7 +36,7 @@ export default function ResultPreview({ result }) {
             {result.rows.map((row, index) => (
               <TableRow key={index} hover>
                 {result.columns.map((column) => (
-                  <TableCell key={column} className="mono">
+                  <TableCell key={column} className="mono" sx={{ whiteSpace: 'nowrap' }}>
                     {row[column]}
                   </TableCell>
                 ))}
@@ -38,6 +45,6 @@ export default function ResultPreview({ result }) {
           </TableBody>
         </Table>
       </TableContainer>
-    </Box>
+    </>
   );
 }

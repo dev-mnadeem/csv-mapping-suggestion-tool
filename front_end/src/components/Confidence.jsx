@@ -1,9 +1,9 @@
-import { Box, LinearProgress, Tooltip, Typography } from '@mui/material';
+import { Box, LinearProgress, Typography } from '@mui/material';
 import { bandFor } from '../config';
 
 const PERCENT = 100;
 
-export default function Confidence({ value, rationale }) {
+export default function Confidence({ value }) {
   if (value === null) {
     return (
       <Typography variant="body2" color="text.secondary">
@@ -12,24 +12,24 @@ export default function Confidence({ value, rationale }) {
     );
   }
   const band = bandFor(value);
+  const percent = Math.round(value * PERCENT);
   return (
-    <Tooltip title={rationale || ''} placement="top" arrow>
-      <Box sx={{ minWidth: 148 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-          <Typography variant="body2" fontWeight={650}>
-            {Math.round(value * PERCENT)}%
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {band.label}
-          </Typography>
-        </Box>
-        <LinearProgress
-          variant="determinate"
-          color={band.color}
-          value={value * PERCENT}
-          sx={{ height: 6, borderRadius: 3 }}
-        />
+    <Box sx={{ minWidth: 132 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+        <Typography variant="body2" fontWeight={600} className="mono">
+          {percent}%
+        </Typography>
+        <Typography variant="body2" color={`${band.color}.main`}>
+          {band.label}
+        </Typography>
       </Box>
-    </Tooltip>
+      <LinearProgress
+        variant="determinate"
+        color={band.color}
+        value={value * PERCENT}
+        aria-label={`confidence ${percent}%, ${band.label}`}
+        sx={{ height: 6, borderRadius: 3, bgcolor: '#ece7da' }}
+      />
+    </Box>
   );
 }

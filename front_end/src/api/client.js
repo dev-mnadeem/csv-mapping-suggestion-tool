@@ -14,6 +14,11 @@ async function unwrap(response) {
   throw new Error(detail);
 }
 
+export async function fetchHealth() {
+  const response = await unwrap(await fetch(`${API_BASE_URL}/api/health`));
+  return response.json();
+}
+
 export async function fetchTransforms() {
   const response = await unwrap(await fetch(`${API_BASE_URL}/api/transforms`));
   return response.json();

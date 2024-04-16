@@ -1,5 +1,6 @@
-import { useRef } from 'react';
+import { useId, useRef } from 'react';
 import { Box, Button, Paper, Typography } from '@mui/material';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 const KILOBYTE = 1024;
@@ -10,36 +11,49 @@ function sizeLabel(file) {
 
 export default function FilePicker({ label, hint, file, onSelect, testId }) {
   const input = useRef(null);
+  const id = useId();
+  const action = file ? 'Change file' : 'Choose CSV';
 
   return (
     <Paper
       variant="outlined"
+      role="group"
+      aria-labelledby={`${id}-label`}
+      aria-describedby={`${id}-hint`}
       sx={{
+        flex: 1,
         p: 2.5,
-        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         gap: 1,
         borderStyle: file ? 'solid' : 'dashed',
-        borderColor: file ? 'secondary.main' : 'divider',
-        backgroundColor: file ? 'rgba(47, 143, 111, 0.04)' : 'background.paper',
+        borderColor: file ? 'primary.main' : 'divider',
+        bgcolor: file ? 'rgba(29, 92, 74, 0.04)' : 'background.paper',
       }}
     >
-      <Typography variant="h2">{label}</Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ minHeight: 40 }}>
+      <Typography variant="h3" id={`${id}-label`}>
+        {label}
+      </Typography>
+      <Typography variant="body2" color="text.secondary" id={`${id}-hint`}>
         {hint}
       </Typography>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mt: 'auto' }}>
+      <Box
+        sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1.5, mt: 'auto', pt: 1 }}
+      >
         <Button
           variant={file ? 'outlined' : 'contained'}
           startIcon={<UploadFileIcon />}
           onClick={() => input.current.click()}
+          aria-label={`${action}: ${label.toLowerCase()}`}
         >
-          {file ? 'Change file' : 'Choose CSV'}
+          {action}
         </Button>
-        <Typography variant="body2" className="mono" color="text.secondary" noWrap>
-          {file ? `${file.name} · ${sizeLabel(file)}` : 'No file selected'}
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, minWidth: 0 }}>
+          {file && <CheckCircleOutlineIcon fontSize="small" color="primary" aria-hidden />}
+          <Typography variant="body2" className="mono" color="text.secondary" noWrap>
+            {file ? `${file.name} · ${sizeLabel(file)}` : 'No file selected'}
+          </Typography>
+        </Box>
       </Box>
       <input
         ref={input}

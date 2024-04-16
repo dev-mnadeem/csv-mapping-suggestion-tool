@@ -3,17 +3,35 @@ import { Chip, Stack } from '@mui/material';
 // What the parser actually made of the upload: encoding and delimiter are
 // guessed, so they are shown rather than hidden.
 export default function TableFacts({ summary, role }) {
+  const delimiter = summary.delimiter === '\t' ? 'tab' : summary.delimiter;
   return (
-    <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-      <Chip size="small" label={role} color="primary" variant="outlined" />
-      <Chip size="small" label={summary.filename} className="mono" />
-      <Chip size="small" label={`${summary.columns.length} columns`} />
-      <Chip size="small" label={`${summary.row_count} rows`} />
-      <Chip size="small" label={`encoding ${summary.encoding}`} />
-      <Chip
-        size="small"
-        label={`delimiter ${summary.delimiter === '\t' ? 'tab' : summary.delimiter}`}
-      />
+    <Stack
+      direction="row"
+      spacing={1}
+      flexWrap="wrap"
+      useFlexGap
+      component="ul"
+      aria-label={`${role} file details`}
+      sx={{ listStyle: 'none', p: 0, m: 0 }}
+    >
+      {[
+        { label: role, color: 'primary', variant: 'outlined' },
+        { label: summary.filename, mono: true },
+        { label: `${summary.columns.length} columns` },
+        { label: `${summary.row_count} rows${summary.truncated ? ' (truncated)' : ''}` },
+        { label: `encoding ${summary.encoding}` },
+        { label: `delimiter ${delimiter}` },
+      ].map((chip) => (
+        <li key={chip.label}>
+          <Chip
+            size="small"
+            label={chip.label}
+            color={chip.color}
+            variant={chip.variant}
+            className={chip.mono ? 'mono' : undefined}
+          />
+        </li>
+      ))}
     </Stack>
   );
 }

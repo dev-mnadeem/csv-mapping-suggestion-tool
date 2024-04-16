@@ -92,6 +92,15 @@ const SUGGESTION = {
   warnings: [],
 };
 
+const HEALTH = {
+  status: 'ok',
+  version: '1.0.0',
+  suggester: 'local',
+  llm_configured: false,
+  max_upload_bytes: 5242880,
+  max_rows: 50000,
+};
+
 function jsonResponse(body) {
   return Promise.resolve({ ok: true, json: () => Promise.resolve(body) });
 }
@@ -100,6 +109,9 @@ beforeEach(() => {
   global.fetch = vi.fn((url) => {
     if (String(url).includes('/api/transforms')) {
       return jsonResponse(TRANSFORMS);
+    }
+    if (String(url).includes('/api/health')) {
+      return jsonResponse(HEALTH);
     }
     return jsonResponse(SUGGESTION);
   });
@@ -149,6 +161,17 @@ test('an unreachable API is reported instead of failing silently', async () => {
   global.fetch = vi.fn(() => Promise.reject(new Error('offline')));
   await renderApp();
   expect(await screen.findByText(/API is not reachable/i)).toBeInTheDocument();
+  expect(screen.getByText('API offline')).toBeInTheDocument();
+});
+
+test('the header names the matcher the API is running', async () => {
+  await renderApp();
+  expect(await screen.findByText('local matcher · v1.0.0')).toBeInTheDocument();
+});
+
+test('step 2 explains itself before any file is chosen', async () => {
+  await renderApp();
+  expect(screen.getByText(/Choose both files and the suggested mapping appears here/)).toBeInTheDocument();
 });
 
 async function suggestFromTwoFiles() {

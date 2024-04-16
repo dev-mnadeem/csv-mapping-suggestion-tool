@@ -1,0 +1,13 @@
+Date_of_Policy,FullName,Insurance_Plan,Policy_No,Monthly_Premium,Department,JobTitle,Insurance_Type
+05/01/2023,John Doe,Silver Plan,AB-12345,100.0,Engineering,Software Engineer,Silver
+05/02/2023,Jane Smith,Bronze Plan,CD-67890,50.0,Finance,Financial Analyst,Bronze
+05/03/2023,Michael Brown,Gold Plan,EF-10111,150.0,Sales,Sales Executive,Gold
+05/04/2023,Carol Martinez,Silver Plan,GH-12121,100.0,Design,Graphic Designer,Silver
+05/05/2023,David Anderson,Gold Plan,IJ-13131,150.0,Engineering,Engineer,Gold
+05/06/2023,Eva Thomas,Bronze Plan,KL-14141,50.0,HR,HR Manager,Bronze
+05/07/2023,Frank Jackson,Silver Plan,MN-15151,100.0,Legal,Attorney,Silver
+05/08/2023,Grace White,Gold Plan,OP-16161,150.0,Product,Product Manager,Gold
+05/09/2023,Bob Wilson,Bronze Plan,QR-17171,50.0,Operations,Operations Lead,Bronze
+05/10/2023,Hannah Lee,Silver Plan,ST-18181,100.0,Marketing,Content Strategist,Silver
+05/11/2023,Ivan Petrov,Gold Plan,UV-19191,150.0,Engineering,Platform Engineer,Gold
+05/12/2023,Julia Novak,Bronze Plan,WX-20202,50.0,Support,Support Specialist,Bronze

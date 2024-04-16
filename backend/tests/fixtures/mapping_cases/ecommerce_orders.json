@@ -1,0 +1,171 @@
+{
+  "name": "shop order export onto a warehouse orders schema",
+  "source": [
+    {
+      "name": "order_id",
+      "values": [
+        "1001",
+        "1002",
+        "1003",
+        "1004"
+      ]
+    },
+    {
+      "name": "cust_email",
+      "values": [
+        "a@example.com",
+        "b@example.com",
+        "c@example.com",
+        "d@example.com"
+      ]
+    },
+    {
+      "name": "Order Date",
+      "values": [
+        "2024-01-04",
+        "2024-01-05",
+        "2024-01-06",
+        "2024-01-07"
+      ]
+    },
+    {
+      "name": "ship_to_city",
+      "values": [
+        "Leeds",
+        "Bristol",
+        "Cardiff",
+        "Derby"
+      ]
+    },
+    {
+      "name": "ship_to_zip",
+      "values": [
+        "LS1 4AP",
+        "BS1 5TR",
+        "CF10 1EP",
+        "DE1 2QT"
+      ]
+    },
+    {
+      "name": "qty",
+      "values": [
+        "2",
+        "1",
+        "4",
+        "3"
+      ]
+    },
+    {
+      "name": "unit_price",
+      "values": [
+        "19.99",
+        "5.50",
+        "12.00",
+        "7.25"
+      ]
+    },
+    {
+      "name": "Total Amount",
+      "values": [
+        "39.98",
+        "5.50",
+        "48.00",
+        "21.75"
+      ]
+    },
+    {
+      "name": "status",
+      "values": [
+        "shipped",
+        "pending",
+        "shipped",
+        "cancelled"
+      ]
+    }
+  ],
+  "target": [
+    {
+      "name": "OrderNumber",
+      "values": [
+        "8801",
+        "8802",
+        "8803"
+      ]
+    },
+    {
+      "name": "CustomerEmail",
+      "values": [
+        "x@example.com",
+        "y@example.com",
+        "z@example.com"
+      ]
+    },
+    {
+      "name": "PurchasedOn",
+      "values": [
+        "2023-11-01",
+        "2023-11-02",
+        "2023-11-03"
+      ]
+    },
+    {
+      "name": "City",
+      "values": [
+        "York",
+        "Bath",
+        "Hull"
+      ]
+    },
+    {
+      "name": "PostalCode",
+      "values": [
+        "YO1 7HH",
+        "BA1 1LZ",
+        "HU1 3DP"
+      ]
+    },
+    {
+      "name": "Quantity",
+      "values": [
+        "1",
+        "5",
+        "2"
+      ]
+    },
+    {
+      "name": "UnitPrice",
+      "values": [
+        "9.99",
+        "3.00",
+        "15.75"
+      ]
+    },
+    {
+      "name": "OrderTotal",
+      "values": [
+        "9.99",
+        "15.00",
+        "31.50"
+      ]
+    },
+    {
+      "name": "OrderStatus",
+      "values": [
+        "pending",
+        "shipped",
+        "pending"
+      ]
+    }
+  ],
+  "expected": {
+    "OrderNumber": "order_id",
+    "CustomerEmail": "cust_email",
+    "PurchasedOn": "Order Date",
+    "City": "ship_to_city",
+    "PostalCode": "ship_to_zip",
+    "Quantity": "qty",
+    "UnitPrice": "unit_price",
+    "OrderTotal": "Total Amount",
+    "OrderStatus": "status"
+  }
+}

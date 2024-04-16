@@ -1,0 +1,126 @@
+{
+  "name": "employee insurance export onto a benefits schema",
+  "source": [
+    {
+      "name": "Date_of_Policy",
+      "values": [
+        "05/01/2023",
+        "05/02/2023",
+        "05/03/2023",
+        "05/04/2023"
+      ]
+    },
+    {
+      "name": "FullName",
+      "values": [
+        "John Doe",
+        "Jane Smith",
+        "Michael Brown",
+        "Carol Martinez"
+      ]
+    },
+    {
+      "name": "Insurance_Plan",
+      "values": [
+        "Silver Plan",
+        "Bronze Plan",
+        "Gold Plan",
+        "Silver Plan"
+      ]
+    },
+    {
+      "name": "Policy_No",
+      "values": [
+        "AB-12345",
+        "CD-67890",
+        "EF-10111",
+        "GH-12121"
+      ]
+    },
+    {
+      "name": "Monthly_Premium",
+      "values": [
+        "100.0",
+        "50.0",
+        "150.0",
+        "100.0"
+      ]
+    },
+    {
+      "name": "Department",
+      "values": [
+        "Engineering",
+        "Finance",
+        "Sales",
+        "Design"
+      ]
+    },
+    {
+      "name": "JobTitle",
+      "values": [
+        "Software Engineer",
+        "Financial Analyst",
+        "Sales Executive",
+        "Graphic Designer"
+      ]
+    },
+    {
+      "name": "Insurance_Type",
+      "values": [
+        "Silver",
+        "Bronze",
+        "Gold",
+        "Silver"
+      ]
+    }
+  ],
+  "target": [
+    {
+      "name": "Date",
+      "values": [
+        "2023-04-03",
+        "2023-04-04",
+        "2023-04-05"
+      ]
+    },
+    {
+      "name": "EmployeeName",
+      "values": [
+        "Alice Green",
+        "Peter Hall",
+        "Nina Patel"
+      ]
+    },
+    {
+      "name": "Plan",
+      "values": [
+        "Silver",
+        "Gold",
+        "Bronze"
+      ]
+    },
+    {
+      "name": "PolicyNumber",
+      "values": [
+        "ZZ99999",
+        "YY88888",
+        "XX77777"
+      ]
+    },
+    {
+      "name": "Premium",
+      "values": [
+        "100",
+        "150",
+        "50"
+      ]
+    }
+  ],
+  "expected": {
+    "Date": "Date_of_Policy",
+    "EmployeeName": "FullName",
+    "Plan": "Insurance_Plan",
+    "PolicyNumber": "Policy_No",
+    "Premium": "Monthly_Premium"
+  }
+}

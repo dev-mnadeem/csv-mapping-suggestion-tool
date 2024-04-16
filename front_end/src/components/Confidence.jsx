@@ -16,7 +16,7 @@ export default function Confidence({ value }) {
   return (
     <Box sx={{ minWidth: 132 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-        <Typography variant="body2" fontWeight={600} className="mono">
+        <Typography variant="body2" className="mono" sx={{ fontWeight: 600 }}>
           {percent}%
         </Typography>
         <Typography variant="body2" color={`${band.color}.main`}>

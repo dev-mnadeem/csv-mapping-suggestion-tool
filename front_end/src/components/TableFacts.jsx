@@ -8,11 +8,10 @@ export default function TableFacts({ summary, role }) {
     <Stack
       direction="row"
       spacing={1}
-      flexWrap="wrap"
       useFlexGap
       component="ul"
       aria-label={`${role} file details`}
-      sx={{ listStyle: 'none', p: 0, m: 0 }}
+      sx={{ listStyle: 'none', p: 0, m: 0, flexWrap: 'wrap' }}
     >
       {[
         { label: role, color: 'primary', variant: 'outlined' },

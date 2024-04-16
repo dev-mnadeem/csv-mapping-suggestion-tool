@@ -53,10 +53,12 @@ function Section({ step, title, subtitle, action, children, labelId }) {
     <Paper component="section" aria-labelledby={labelId} sx={{ p: { xs: 2, sm: 3 } }}>
       <Stack
         direction={{ xs: 'column', sm: 'row' }}
-        justifyContent="space-between"
-        alignItems={{ xs: 'stretch', sm: 'flex-start' }}
         spacing={2}
-        sx={{ mb: 2.5 }}
+        sx={{
+          mb: 2.5,
+          justifyContent: 'space-between',
+          alignItems: { xs: 'stretch', sm: 'flex-start' },
+        }}
       >
         <Box>
           <Typography variant="overline" color="primary" component="p">

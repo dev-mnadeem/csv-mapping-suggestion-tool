@@ -67,7 +67,7 @@ function SourceSelect({ row, sourceColumns, onPick }) {
       fullWidth
       className="mono"
       value={row.source_column || UNMAPPED}
-      inputProps={{ 'aria-label': `source for ${row.target_column}` }}
+      slotProps={{ input: { 'aria-label': `source for ${row.target_column}` } }}
       onChange={(event) => onPick(event.target.value === UNMAPPED ? null : event.target.value)}
     >
       <MenuItem value={UNMAPPED}>
@@ -91,7 +91,7 @@ function TransformSelect({ row, transforms, onPick }) {
       fullWidth
       className="mono"
       value={row.transform}
-      inputProps={{ 'aria-label': `transform for ${row.target_column}` }}
+      slotProps={{ input: { 'aria-label': `transform for ${row.target_column}` } }}
       onChange={(event) => onPick(event.target.value)}
     >
       {names.map((name) => (
@@ -178,7 +178,7 @@ export default function MappingTable({ mappings, sourceColumns, transforms, onCh
           {mappings.map((row) => (
             <TableRow key={row.target_column} hover>
               <TableCell component="th" scope="row">
-                <Typography variant="body2" fontWeight={600} className="mono">
+                <Typography variant="body2" className="mono" sx={{ fontWeight: 600 }}>
                   {row.target_column}
                 </Typography>
               </TableCell>

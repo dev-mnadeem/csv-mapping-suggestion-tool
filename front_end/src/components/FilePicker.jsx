@@ -1,6 +1,6 @@
 import { useId, useRef } from 'react';
 import { Box, Button, Paper, Typography } from '@mui/material';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutlined';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 const KILOBYTE = 1024;

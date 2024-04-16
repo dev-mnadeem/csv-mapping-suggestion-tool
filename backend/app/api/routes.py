@@ -23,7 +23,7 @@ from app.domain.schemas import (
     TransformInfo,
 )
 from app.services import transforms
-from app.services.applier import compile_plan, iter_rows, to_csv
+from app.services.applier import compile_plan, page_rows, to_csv
 from app.services.csv_reader import Table
 from app.services.errors import MappingPlanError, RunNotFoundError
 from app.services.profiler import profile_table
@@ -120,8 +120,7 @@ async def apply_mapping(
 
     page = [
         dict(zip(compiled.columns, row, strict=True))
-        for index, row in enumerate(iter_rows(compiled, table))
-        if offset <= index < offset + limit
+        for row in page_rows(compiled, table, limit, offset)
     ]
     return ApplyResponse(
         columns=compiled.columns,

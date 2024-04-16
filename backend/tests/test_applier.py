@@ -108,3 +108,14 @@ def test_csv_output_quotes_embedded_delimiters() -> None:
     )
     output = "".join(to_csv(compiled, table))
     assert output == 'EmployeeName\r\n"Doe, John"\r\n'
+
+
+def test_page_past_the_end_is_empty() -> None:
+    table = read_csv(CSV, SETTINGS)
+    _, rows = apply_plan(
+        plan(ColumnMapping(target_column="P", source_column="Policy_No")),
+        table,
+        limit=10,
+        offset=5,
+    )
+    assert rows == []

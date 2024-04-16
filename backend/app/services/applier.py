@@ -72,19 +72,20 @@ def iter_rows(compiled: Compiled, table: Table) -> Iterator[list[str]]:
         ]
 
 
+def page_rows(
+    compiled: Compiled, table: Table, limit: int | None = None, offset: int = 0
+) -> list[list[str]]:
+    """Transform only the rows of one page; the rest are never touched."""
+    window = table.rows[offset : None if limit is None else offset + limit]
+    return list(iter_rows(compiled, Table(columns=table.columns, rows=window)))
+
+
 def apply_plan(
     plan: MappingPlan, table: Table, limit: int | None = None, offset: int = 0
 ) -> tuple[Compiled, list[list[str]]]:
     """Run a plan and return one page of the result."""
     compiled = compile_plan(plan, table)
-    rows: list[list[str]] = []
-    for position, row in enumerate(iter_rows(compiled, table)):
-        if position < offset:
-            continue
-        if limit is not None and len(rows) >= limit:
-            break
-        rows.append(row)
-    return compiled, rows
+    return compiled, page_rows(compiled, table, limit, offset)
 
 
 def to_csv(compiled: Compiled, table: Table) -> Iterator[str]:

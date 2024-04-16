@@ -1,9 +1,11 @@
 import { Chip, Stack } from '@mui/material';
 
+const DELIMITER_NAMES = { ',': 'comma', ';': 'semicolon', '\t': 'tab', '|': 'pipe' };
+
 // What the parser actually made of the upload: encoding and delimiter are
 // guessed, so they are shown rather than hidden.
 export default function TableFacts({ summary, role }) {
-  const delimiter = summary.delimiter === '\t' ? 'tab' : summary.delimiter;
+  const delimiter = DELIMITER_NAMES[summary.delimiter] || summary.delimiter;
   return (
     <Stack
       direction="row"

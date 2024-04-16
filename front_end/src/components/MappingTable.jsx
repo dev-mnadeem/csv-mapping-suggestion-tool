@@ -103,6 +103,17 @@ function TransformSelect({ row, transforms, onPick }) {
   );
 }
 
+function FieldLabel({ text, children }) {
+  return (
+    <div>
+      <Typography variant="caption" color="text.secondary" component="div" aria-hidden>
+        {text}
+      </Typography>
+      {children}
+    </div>
+  );
+}
+
 function StackedRows({ mappings, renderSource, renderTransform }) {
   return (
     <Stack component="ul" spacing={1.5} sx={{ listStyle: 'none', p: 0, m: 0 }}>
@@ -115,8 +126,8 @@ function StackedRows({ mappings, renderSource, renderTransform }) {
             {row.target_column}
           </Typography>
           <Stack spacing={1.25}>
-            {renderSource(row)}
-            {renderTransform(row)}
+            <FieldLabel text="Source column">{renderSource(row)}</FieldLabel>
+            <FieldLabel text="Transform">{renderTransform(row)}</FieldLabel>
             <Confidence value={row.confidence} />
             <Typography variant="body2" color="text.secondary">
               {row.rationale}

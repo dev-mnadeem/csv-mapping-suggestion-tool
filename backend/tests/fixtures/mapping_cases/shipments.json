@@ -1,0 +1,137 @@
+{
+  "name": "carrier shipment feed onto a fulfilment schema",
+  "source": [
+    {
+      "name": "tracking_no",
+      "values": [
+        "JD0002212",
+        "JD0002213",
+        "JD0002214"
+      ]
+    },
+    {
+      "name": "carrier",
+      "values": [
+        "DPD",
+        "Evri",
+        "Royal Mail"
+      ]
+    },
+    {
+      "name": "Ship Date",
+      "values": [
+        "2024-05-01",
+        "2024-05-02",
+        "2024-05-02"
+      ]
+    },
+    {
+      "name": "Delivery Date",
+      "values": [
+        "2024-05-03",
+        "2024-05-05",
+        "2024-05-04"
+      ]
+    },
+    {
+      "name": "weight_kg",
+      "values": [
+        "1.2",
+        "0.4",
+        "3.9"
+      ]
+    },
+    {
+      "name": "dest_country",
+      "values": [
+        "GB",
+        "GB",
+        "IE"
+      ]
+    },
+    {
+      "name": "recipient",
+      "values": [
+        "Ann Patel",
+        "Joe Diaz",
+        "Mia Wong"
+      ]
+    },
+    {
+      "name": "notes",
+      "values": [
+        "left with neighbour",
+        "",
+        "signed for"
+      ]
+    }
+  ],
+  "target": [
+    {
+      "name": "TrackingNumber",
+      "values": [
+        "AA111",
+        "BB222"
+      ]
+    },
+    {
+      "name": "Carrier",
+      "values": [
+        "UPS",
+        "FedEx"
+      ]
+    },
+    {
+      "name": "ShippedOn",
+      "values": [
+        "2024-04-01",
+        "2024-04-02"
+      ]
+    },
+    {
+      "name": "DeliveredOn",
+      "values": [
+        "2024-04-03",
+        "2024-04-04"
+      ]
+    },
+    {
+      "name": "WeightKg",
+      "values": [
+        "2.0",
+        "1.1"
+      ]
+    },
+    {
+      "name": "DestinationCountry",
+      "values": [
+        "FR",
+        "DE"
+      ]
+    },
+    {
+      "name": "ReceiverName",
+      "values": [
+        "Luc Marin",
+        "Eva Stein"
+      ]
+    },
+    {
+      "name": "DeliveryNotes",
+      "values": [
+        "in porch",
+        "reception"
+      ]
+    }
+  ],
+  "expected": {
+    "TrackingNumber": "tracking_no",
+    "Carrier": "carrier",
+    "ShippedOn": "Ship Date",
+    "DeliveredOn": "Delivery Date",
+    "WeightKg": "weight_kg",
+    "DestinationCountry": "dest_country",
+    "ReceiverName": "recipient",
+    "DeliveryNotes": "notes"
+  }
+}

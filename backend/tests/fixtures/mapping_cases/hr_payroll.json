@@ -1,0 +1,153 @@
+{
+  "name": "payroll extract onto an HR system schema",
+  "source": [
+    {
+      "name": "EmpID",
+      "values": [
+        "E-001",
+        "E-002",
+        "E-003",
+        "E-004"
+      ]
+    },
+    {
+      "name": "emp_name",
+      "values": [
+        "Ali Raza",
+        "Sara Khan",
+        "Omar Shah",
+        "Hina Butt"
+      ]
+    },
+    {
+      "name": "dept",
+      "values": [
+        "Engineering",
+        "Support",
+        "Finance",
+        "Design"
+      ]
+    },
+    {
+      "name": "Designation",
+      "values": [
+        "Backend Engineer",
+        "Support Lead",
+        "Accountant",
+        "UI Designer"
+      ]
+    },
+    {
+      "name": "Monthly_Salary",
+      "values": [
+        "4200.00",
+        "3100.00",
+        "3600.00",
+        "2900.00"
+      ]
+    },
+    {
+      "name": "Joining Date",
+      "values": [
+        "2021-03-01",
+        "2020-07-15",
+        "2019-01-09",
+        "2022-05-30"
+      ]
+    },
+    {
+      "name": "email_id",
+      "values": [
+        "ali@example.com",
+        "sara@example.com",
+        "omar@example.com",
+        "hina@example.com"
+      ]
+    },
+    {
+      "name": "mobile_no",
+      "values": [
+        "+44 7700 900111",
+        "+44 7700 900222",
+        "+44 7700 900333",
+        "+44 7700 900444"
+      ]
+    }
+  ],
+  "target": [
+    {
+      "name": "employee_id",
+      "values": [
+        "101",
+        "102",
+        "103"
+      ]
+    },
+    {
+      "name": "full_name",
+      "values": [
+        "Tom Ford",
+        "Ada Byron",
+        "Ken Blue"
+      ]
+    },
+    {
+      "name": "department",
+      "values": [
+        "Legal",
+        "Sales",
+        "Product"
+      ]
+    },
+    {
+      "name": "job_title",
+      "values": [
+        "Paralegal",
+        "Sales Rep",
+        "PM"
+      ]
+    },
+    {
+      "name": "salary",
+      "values": [
+        "5000.00",
+        "4400.00",
+        "4800.00"
+      ]
+    },
+    {
+      "name": "hire_date",
+      "values": [
+        "2018-02-02",
+        "2017-09-09",
+        "2020-11-11"
+      ]
+    },
+    {
+      "name": "email",
+      "values": [
+        "tom@example.com",
+        "ada@example.com",
+        "ken@example.com"
+      ]
+    },
+    {
+      "name": "phone",
+      "values": [
+        "+44 7700 900555",
+        "+44 7700 900666",
+        "+44 7700 900777"
+      ]
+    }
+  ],
+  "expected": {
+    "employee_id": "EmpID",
+    "full_name": "emp_name",
+    "department": "dept",
+    "job_title": "Designation",
+    "salary": "Monthly_Salary",
+    "hire_date": "Joining Date",
+    "email": "email_id",
+    "phone": "mobile_no"
+  }
+}

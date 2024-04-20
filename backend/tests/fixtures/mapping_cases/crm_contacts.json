@@ -1,0 +1,137 @@
+{
+  "name": "CRM contact export onto a marketing schema",
+  "source": [
+    {
+      "name": "Full Name",
+      "values": [
+        "Dana Rose",
+        "Ivor Bell",
+        "Lena Cruz"
+      ]
+    },
+    {
+      "name": "Company Name",
+      "values": [
+        "Acme Ltd",
+        "Globex",
+        "Initech"
+      ]
+    },
+    {
+      "name": "Work Email",
+      "values": [
+        "dana@acme.test",
+        "ivor@globex.test",
+        "lena@initech.test"
+      ]
+    },
+    {
+      "name": "Tel",
+      "values": [
+        "020 7946 0001",
+        "020 7946 0002",
+        "020 7946 0003"
+      ]
+    },
+    {
+      "name": "City",
+      "values": [
+        "London",
+        "Manchester",
+        "Leeds"
+      ]
+    },
+    {
+      "name": "Country",
+      "values": [
+        "UK",
+        "UK",
+        "UK"
+      ]
+    },
+    {
+      "name": "Lead Status",
+      "values": [
+        "new",
+        "qualified",
+        "new"
+      ]
+    },
+    {
+      "name": "Created On",
+      "values": [
+        "2024-02-01",
+        "2024-02-03",
+        "2024-02-07"
+      ]
+    }
+  ],
+  "target": [
+    {
+      "name": "name",
+      "values": [
+        "Ruth Iyer",
+        "Sam Okoro"
+      ]
+    },
+    {
+      "name": "organisation",
+      "values": [
+        "Umbrella",
+        "Soylent"
+      ]
+    },
+    {
+      "name": "email",
+      "values": [
+        "ruth@umbrella.test",
+        "sam@soylent.test"
+      ]
+    },
+    {
+      "name": "phone_number",
+      "values": [
+        "020 7946 0100",
+        "020 7946 0101"
+      ]
+    },
+    {
+      "name": "city",
+      "values": [
+        "Bristol",
+        "Oxford"
+      ]
+    },
+    {
+      "name": "country",
+      "values": [
+        "UK",
+        "IE"
+      ]
+    },
+    {
+      "name": "status",
+      "values": [
+        "qualified",
+        "new"
+      ]
+    },
+    {
+      "name": "created_at",
+      "values": [
+        "2023-12-01",
+        "2023-12-05"
+      ]
+    }
+  ],
+  "expected": {
+    "name": "Full Name",
+    "organisation": "Company Name",
+    "email": "Work Email",
+    "phone_number": "Tel",
+    "city": "City",
+    "country": "Country",
+    "status": "Lead Status",
+    "created_at": "Created On"
+  }
+}

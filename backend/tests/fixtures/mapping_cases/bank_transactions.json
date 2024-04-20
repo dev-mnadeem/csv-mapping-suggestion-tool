@@ -1,0 +1,121 @@
+{
+  "name": "bank statement export onto a ledger schema",
+  "source": [
+    {
+      "name": "TXN_DATE",
+      "values": [
+        "01/03/2024",
+        "02/03/2024",
+        "04/03/2024"
+      ]
+    },
+    {
+      "name": "TXN_ID",
+      "values": [
+        "T0001",
+        "T0002",
+        "T0003"
+      ]
+    },
+    {
+      "name": "Description",
+      "values": [
+        "CARD PAYMENT TESCO",
+        "SALARY ACME LTD",
+        "DIRECT DEBIT EDF"
+      ]
+    },
+    {
+      "name": "Debit",
+      "values": [
+        "23.40",
+        "",
+        "88.10"
+      ]
+    },
+    {
+      "name": "Credit",
+      "values": [
+        "",
+        "2400.00",
+        ""
+      ]
+    },
+    {
+      "name": "Balance",
+      "values": [
+        "1976.60",
+        "4376.60",
+        "4288.50"
+      ]
+    },
+    {
+      "name": "Acct No",
+      "values": [
+        "12345678",
+        "12345678",
+        "12345678"
+      ]
+    }
+  ],
+  "target": [
+    {
+      "name": "date",
+      "values": [
+        "2024-02-01",
+        "2024-02-02"
+      ]
+    },
+    {
+      "name": "transaction_reference",
+      "values": [
+        "R-900",
+        "R-901"
+      ]
+    },
+    {
+      "name": "narrative",
+      "values": [
+        "ATM WITHDRAWAL",
+        "REFUND AMAZON"
+      ]
+    },
+    {
+      "name": "debit_amount",
+      "values": [
+        "50.00",
+        ""
+      ]
+    },
+    {
+      "name": "credit_amount",
+      "values": [
+        "",
+        "12.99"
+      ]
+    },
+    {
+      "name": "running_balance",
+      "values": [
+        "1500.00",
+        "1512.99"
+      ]
+    },
+    {
+      "name": "account_number",
+      "values": [
+        "87654321",
+        "87654321"
+      ]
+    }
+  ],
+  "expected": {
+    "date": "TXN_DATE",
+    "transaction_reference": "TXN_ID",
+    "narrative": "Description",
+    "debit_amount": "Debit",
+    "credit_amount": "Credit",
+    "running_balance": "Balance",
+    "account_number": "Acct No"
+  }
+}

@@ -1,0 +1,29 @@
+services:
+  api:
+    build:
+      context: ./backend
+    image: csv-column-mapper-api:latest
+    environment:
+      SUGGESTER_BACKEND: ${SUGGESTER_BACKEND:-local}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      DATABASE_URL: sqlite:////app/data/app.db
+    ports:
+      - "7241:7241"
+    volumes:
+      - api-data:/app/data
+
+  web:
+    build:
+      context: ./front_end
+      args:
+        # The browser resolves this, so it is the host's port, not the
+        # compose network name.
+        REACT_APP_API_URL: http://localhost:7241
+    image: csv-column-mapper-web:latest
+    ports:
+      - "7242:8080"
+    depends_on:
+      - api
+
+volumes:
+  api-data:

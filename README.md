@@ -71,3 +71,7 @@ cd front_end && CI=true npm test
 - One source column maps to at most one target column, so splitting a full name into two fields needs a hand-edited plan.
 - Files are parsed in memory, capped at 5 MiB and 50,000 rows.
 - The run log stores suggestions, not the mapping the user finally applied.
+
+## Author
+
+[**Muhammad Nadeem**](https://github.com/dev-mnadeem)
